@@ -37,7 +37,7 @@ int main(int argc, char* argv[])
         return 1;
     }
     //create listening socket
-    SOCKET listen_sock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+    SOCKET listen_sock = socket(result->ai_family, result->ai_socktype, result->ai_protocol);
     if(listen_sock == INVALID_SOCKET)
     {
         printf("fail to create socket");
@@ -47,9 +47,9 @@ int main(int argc, char* argv[])
     }
     //bind socket
     iResult = bind(listen_sock, result->ai_addr, (int)result->ai_addrlen);
-    if(iResult != SOCKET_ERROR)
+    if(iResult == SOCKET_ERROR)
     {
-        printf("fail to bing socket");
+        printf("fail to bind socket");
         freeaddrinfo(result);
         closesocket(listen_sock);
         WSACleanup();
@@ -84,6 +84,8 @@ int main(int argc, char* argv[])
         {
             printf("Bytes received: %d\n", iResult);
             printf(recvBuff);
+            
+            iResult = send(client_socket, "i have an pen!", sizeof("i have an pen!"), 0);
         }
         else if(iResult == 0)
             printf("closing connection with client");
@@ -94,7 +96,7 @@ int main(int argc, char* argv[])
             WSACleanup();
             return 1;
         }
-    }while(iResult != 0);
+    }while(iResult > 0);
 
     //close the connection with client
     iResult = shutdown(client_socket, SD_SEND);
@@ -109,5 +111,7 @@ int main(int argc, char* argv[])
     closesocket(client_socket);
     closesocket(listen_sock);
     WSACleanup();
+
+    system("pause");
     return 0;
 }
