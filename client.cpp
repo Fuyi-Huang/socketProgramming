@@ -28,7 +28,7 @@ int main(int argc, char* argv[])
     addrinfo* result = NULL;
     addrinfo hints;
     ZeroMemory(&hints, sizeof(hints));
-    hints.ai_family = AF_UNSPEC;
+    hints.ai_family = AF_INET;
     hints.ai_protocol = IPPROTO_TCP;
     hints.ai_socktype = SOCK_STREAM;
     iResult = getaddrinfo("localhost", PORT, &hints, &result);
@@ -42,9 +42,9 @@ int main(int argc, char* argv[])
     //attempt to connect an address until one succeed
     struct addrinfo* ptr = NULL;
     SOCKET connSocket = INVALID_SOCKET;
-    std::cout << result->ai_socktype << std::endl;
     for(ptr = result; ptr != NULL; ptr = ptr->ai_next)
     {
+        std::cout << result->ai_family << " " << result->ai_socktype << " " << result->ai_protocol << std::endl;
         connSocket = socket(ptr->ai_family, ptr->ai_socktype, ptr->ai_protocol);
         if(connSocket == INVALID_SOCKET)
         {

@@ -4,6 +4,7 @@
 #include <winsock2.h>
 #include <windows.h>
 #include <ws2tcpip.h>
+#include <iostream>
 
 // need to link with ws2_32.lib
 #pragma comment (lib, "Ws2_32.lib")
@@ -30,13 +31,14 @@ int main(int argc, char* argv[])
     hints.ai_socktype = SOCK_STREAM;
     hints.ai_protocol = IPPROTO_TCP;
     hints.ai_flags = AI_PASSIVE;
-    iResult = getaddrinfo(NULL, PORT, &hints, &result);
+    iResult = getaddrinfo("localhost", PORT, &hints, &result);
     if(iResult != 0)
     {
         printf("fail to get address info");
         return 1;
     }
     //create listening socket
+    std::cout << result->ai_family << " " << result->ai_socktype << " " << result->ai_protocol << std::endl;
     SOCKET listen_sock = socket(result->ai_family, result->ai_socktype, result->ai_protocol);
     if(listen_sock == INVALID_SOCKET)
     {
