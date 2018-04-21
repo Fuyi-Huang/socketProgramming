@@ -1,2 +1,2 @@
 # socketProgramming
-This is a socket programming test project
+This is a socket programming test project for windows system.
