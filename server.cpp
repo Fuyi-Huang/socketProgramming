@@ -1,3 +1,6 @@
+// the compilation is successful using g++: 
+//      g++ server.cpp -lws2_32 -o server
+//      ./server
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -31,7 +34,7 @@ int main(int argc, char* argv[])
     hints.ai_socktype = SOCK_STREAM;
     hints.ai_protocol = IPPROTO_TCP;
     hints.ai_flags = AI_PASSIVE;
-    iResult = getaddrinfo("localhost", PORT, &hints, &result);
+    iResult = getaddrinfo(INADDR_ANY, PORT, &hints, &result);
     if(iResult != 0)
     {
         printf("fail to get address info");

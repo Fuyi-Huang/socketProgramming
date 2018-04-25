@@ -1,3 +1,6 @@
+// the compilation is successful using g++: 
+//      g++ client.cpp -lws2_32 -lmswsock -ladvapi32 -o client
+//      ./client
 #include <stdio.h>
 #include <stdlib.h>
 #include <string>
